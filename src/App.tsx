@@ -33,18 +33,41 @@ import {
 
 // 常量定義
 const LOGO_URL = "https://www.dropbox.com/scl/fi/1lg91xa98mrfe7hghs8t1/Logo.png?rlkey=332lexpb0cg3edsgckdaad1j5&st=61xlef0b&dl=1";
-const VIDEO_URL = "https://www.dropbox.com/scl/fi/s74q11pa4uhx93216eue5/.mp4?rlkey=p0bx2ejnftjjof6y287uuvdsz&st=0jsef17q&dl=1";
+const VIDEO_URL = "https://www.dropbox.com/scl/fi/chtzsye61p2xf6shv0gh7/.mp4?rlkey=h6yscrsphzggtm5oiao2enhmc&st=s7ro4ol5&dl=1";
 // 更新為您提供的 LINE 官方帳號連結
 const CONTACT_LINK = "https://lin.ee/gGmdaU2"; 
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [currentSession, setCurrentSession] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    const checkSession = () => {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const totalMinutes = hours * 60 + minutes;
+
+      // 亞盤: 09:00 - 11:00 (540 - 660)
+      if (totalMinutes >= 540 && totalMinutes <= 660) setCurrentSession('asia');
+      // 歐盤: 15:00 - 17:00 (900 - 1020)
+      else if (totalMinutes >= 900 && totalMinutes <= 1020) setCurrentSession('europe');
+      // 美盤: 20:30 - 22:30 (1230 - 1350)
+      else if (totalMinutes >= 1230 && totalMinutes <= 1350) setCurrentSession('america');
+      else setCurrentSession(null);
+    };
+
+    checkSession();
+    const interval = setInterval(checkSession, 60000);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearInterval(interval);
+    };
   }, []);
 
   const scrollTo = (id: string) => {
@@ -295,9 +318,9 @@ const App = () => {
 
           <CardContainer title="黃金交易熱區" icon={<Clock size={24} />}>
              <div className="space-y-4">
-                <TimeRow label="亞盤" time="09:00 - 11:00" />
-                <TimeRow label="歐盤" time="15:00 - 17:00" />
-                <TimeRow label="美盤" time="20:30 - 22:30" highlight />
+                <TimeRow label="亞盤" time="09:00 - 11:00" highlight={currentSession === 'asia'} />
+                <TimeRow label="歐盤" time="15:00 - 17:00" highlight={currentSession === 'europe'} />
+                <TimeRow label="美盤" time="20:30 - 22:30" highlight={currentSession === 'america'} />
                 <div className="grid grid-cols-2 gap-2 mt-4 text-[10px]">
                   <div className="bg-[#121620] p-2 rounded text-slate-500">夏令系統維護<br/>05:00-06:00</div>
                   <div className="bg-[#121620] p-2 rounded text-slate-500">冬令系統維護<br/>06:00-07:00</div>
@@ -308,17 +331,51 @@ const App = () => {
 
         {/* 實戰影片 */}
         <div className="bg-gradient-to-r from-[#121620] to-[#0B0E14] rounded-3xl border border-[#D4AF37]/30 overflow-hidden shadow-2xl flex flex-col lg:flex-row items-stretch">
-          <div className="p-8 lg:p-16 flex-1 flex flex-col justify-center">
-            <h4 className="text-3xl font-bold mb-6 flex items-center gap-3">
-              <MonitorPlay className="text-[#D4AF37]" /> 分擔平倉實戰教學
+          <div className="p-8 lg:p-12 flex-1 flex flex-col justify-center">
+            <h4 className="text-3xl font-bold mb-6 flex items-center justify-center gap-3">
+              <MonitorPlay className="text-[#D4AF37]" /> 分單平倉教學
             </h4>
-            <p className="text-slate-400 mb-8 leading-relaxed">
-              學會「分擔平倉」是鎖住獲利的關鍵。當行情跑出一段利潤時，建議先平掉部分倉位（例如 0.05 手先平 0.03），剩下的設置保本止損讓利潤奔跑，實現零風險獲利。
-            </p>
-            <div className="flex gap-4">
-              <span className="px-4 py-2 bg-white/5 rounded-lg border border-white/10 text-xs text-slate-400">教學長度: 1:00</span>
-              <span className="px-4 py-2 bg-white/5 rounded-lg border border-white/10 text-xs text-slate-400">難度: 進階</span>
+            
+            <div className="space-y-6">
+              <div>
+                <h5 className="text-[#D4AF37] font-bold mb-2 flex items-center gap-2">
+                  <Zap size={16} /> 什麼是分單平倉？
+                </h5>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  簡單說就是：<span className="text-white font-bold">「先落袋為安，再讓利潤奔跑。」</span><br/>
+                  你不用一次把貨出光，而是先賣掉一部分鎖定獲利，剩下的部位繼續留在場內拚更高的報酬。
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="col-span-full">
+                  <h5 className="text-[#D4AF37] font-bold mb-2 flex items-center gap-2">
+                    <Zap size={16} /> 兩大核心價值
+                  </h5>
+                </div>
+                <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <h6 className="text-emerald-400 font-bold text-xs mb-2 uppercase tracking-wider">保本獲利（勝率流）</h6>
+                  <p className="text-[11px] text-slate-400 leading-relaxed">
+                    先入袋部分利潤，並將剩餘部位設為「保本止損」，立於不敗之地。
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <h6 className="text-blue-400 font-bold text-xs mb-2 uppercase tracking-wider">心理支撐（抗壓流）</h6>
+                  <p className="text-[11px] text-slate-400 leading-relaxed">
+                    減倉能降低焦慮、穩住心態，讓剩下的部位更有底氣拿住大波段。
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-white/10">
+                <div className="flex items-center gap-3">
+                  <div className="px-3 py-1 rounded-full bg-[#D4AF37] text-black text-[10px] font-black uppercase">操作口訣</div>
+                  <p className="text-lg font-bold tracking-widest text-[#F9F1D8]">「分批減倉，移動止損。」</p>
+                </div>
+              </div>
             </div>
+
+
           </div>
           <div className="flex-1 bg-black flex items-center justify-center p-4">
             <div className="w-full max-w-[320px] aspect-[9/16] rounded-xl overflow-hidden shadow-2xl bg-slate-900 border border-white/10">
