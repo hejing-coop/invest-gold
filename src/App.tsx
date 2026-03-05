@@ -32,8 +32,8 @@ import {
 } from 'lucide-react';
 
 // 常量定義
-const LOGO_URL = "https://www.dropbox.com/scl/fi/1lg91xa98mrfe7hghs8t1/Logo.png?rlkey=332lexpb0cg3edsgckdaad1j5&st=61xlef0b&dl=1";
-const VIDEO_URL = "https://www.dropbox.com/scl/fi/chtzsye61p2xf6shv0gh7/.mp4?rlkey=h6yscrsphzggtm5oiao2enhmc&st=s7ro4ol5&dl=1";
+const LOGO_URL = "https://www.dropbox.com/scl/fi/1lg91xa98mrfe7hghs8t1/Logo.png?rlkey=332lexpb0cg3edsgckdaad1j5&st=61xlef0b&raw=1";
+const VIDEO_URL = "https://www.dropbox.com/scl/fi/chtzsye61p2xf6shv0gh7/.mp4?rlkey=h6yscrsphzggtm5oiao2enhmc&st=s7ro4ol5&raw=1";
 // 更新為您提供的 LINE 官方帳號連結
 const CONTACT_LINK = "https://lin.ee/gGmdaU2"; 
 
@@ -382,6 +382,8 @@ const App = () => {
               <video 
                 className="w-full h-full object-cover" 
                 controls
+                playsInline
+                preload="metadata"
                 poster="https://picsum.photos/400/700"
               >
                 <source src={VIDEO_URL} type="video/mp4" />
