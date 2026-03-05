@@ -354,15 +354,15 @@ const App = () => {
                   </h5>
                 </div>
                 <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                  <h6 className="text-emerald-400 font-bold text-xs mb-2 uppercase tracking-wider">保本獲利（勝率流）</h6>
+                  <h6 className="text-emerald-400 font-bold text-xs mb-2 uppercase tracking-wider">穩賺不賠(保本流)</h6>
                   <p className="text-[11px] text-slate-400 leading-relaxed">
-                    先入袋部分利潤，並將剩餘部位設為「保本止損」，立於不敗之地。
+                    先入袋部分獲利，並將剩下部位改為「保本止損」立於不敗之地。
                   </p>
                 </div>
                 <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                  <h6 className="text-blue-400 font-bold text-xs mb-2 uppercase tracking-wider">心理支撐（抗壓流）</h6>
+                  <h6 className="text-blue-400 font-bold text-xs mb-2 uppercase tracking-wider">心態平穩(抗壓流)</h6>
                   <p className="text-[11px] text-slate-400 leading-relaxed">
-                    減倉能降低焦慮、穩住心態，讓剩下的部位更有底氣拿住大波段。
+                    減壓後更能拿住剩餘部分，避免因小幅震盪而驚慌離場。
                   </p>
                 </div>
               </div>
